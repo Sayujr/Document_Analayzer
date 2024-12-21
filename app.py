@@ -121,7 +121,7 @@ elif category == "Field Notes":
             }
             st.write(structure.get(doc_type, "Custom structure"))
 
-    # Step 5: Add tags and themes
+# Step 5: Setup the Document Structure
         st.header("Step 5: Structure Your Document")
         st.markdown("### Suggested Structure for Curriculum Materials: Teacher Guides")
 
@@ -141,14 +141,21 @@ edited_structure = st.data_editor(
 st.write("Modified Structure:")
 st.write(edited_structure)
 
-# Step 6: Theme and Tags Table
+# Step 6: Add tags and themes
 st.header("Step 6: Add Tags and Themes")
 st.markdown("### Organize Tags by Themes")
 
 # Default themes and associated tags (example)
 default_data = {
-    "Theme": ["Learning Goals", "Teacher Role", "Assessment", "Student"],
-    "Tags": ["Plan, Facilitate, Guide", "Teach, Mentor, Support", "Evaluate, Grade, Feedback", "Share, Discuss"]
+    "Theme": ["Instructional Design", "Facilitation", "Assessment", "Collaboration", "Professional Development", "Classroom Management"],
+    "Tags": [
+        "Plan, Organize, Develop",
+        "Guide, Support, Engage",
+        "Evaluate, Grade, Analyze",
+        "Share, Discuss, Collaborate",
+        "Reflect, Learn, Improve",
+        "Monitor, Discipline, Arrange"
+    ]
 }
 
 # Convert to DataFrame for editing
