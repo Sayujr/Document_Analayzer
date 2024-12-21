@@ -373,6 +373,9 @@ if "structured_document" in st.session_state and not st.session_state["structure
     # Load the structured document from session state
     df_structured = st.session_state["structured_document"]
 
+    # Filter out rows where the Tags column is empty or NaN
+    filtered_df = df_structured[df_structured["Tags"].notna() & df_structured["Tags"].str.strip().ne("")]
+
     # Display preview of structured document
     st.subheader("Preview Structured Document (First 50 Rows)")
     st.dataframe(df_structured.head(50))
@@ -384,12 +387,12 @@ if "structured_document" in st.session_state and not st.session_state["structure
             if st.button("Analyze Document"):
                 st.write("Analysis in progress...")
 
-                # Analysis Logic
+               # Analysis Logic
                 # Frequency chart of Tags
                 st.subheader("Frequency of Tags")
-                if "Tags" in df_structured.columns:
+                if "Tags" in filtered_df.columns:
                     tags = (
-                        df_structured["Tags"]
+                        filtered_df["Tags"]
                         .str.split(", ")
                         .explode()  # Split and expand tags
                         .value_counts()
@@ -400,9 +403,9 @@ if "structured_document" in st.session_state and not st.session_state["structure
 
                 # Frequency chart of Themes
                 st.subheader("Frequency of Themes")
-                if "Themes" in df_structured.columns:
+                if "Themes" in filtered_df.columns:
                     themes = (
-                        df_structured["Themes"]
+                        filtered_df["Themes"]
                         .str.split(", ")
                         .explode()  # Split and expand themes
                         .value_counts()
@@ -413,11 +416,11 @@ if "structured_document" in st.session_state and not st.session_state["structure
 
                 # Pie chart for Themes Distribution
                 st.subheader("Distribution of Themes")
-                if "Themes" in df_structured.columns:
+                if "Themes" in filtered_df.columns:
                     import matplotlib.pyplot as plt
 
                     themes_pie = (
-                        df_structured["Themes"]
+                        filtered_df["Themes"]
                         .str.split(", ")
                         .explode()  # Split and expand themes
                         .value_counts()
