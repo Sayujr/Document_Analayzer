@@ -8,7 +8,7 @@ import re  # Import the regular expressions module
 import openai
 
 # Set OpenAI API key
-openai.api_key = "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"
+openai.api_key = "test"
 
 # Helper functions
 def extract_text_from_pdf(file):
@@ -42,8 +42,9 @@ st.title("Document Analysis Tool")
 st.header("Step 1: Upload Document")
 
 # Preload default file
-default_file_path = "/Users/sayuj/Downloads/phd/PHD Resources/Course Material/Y1S2/QE AB/QE Project/US CMs/IM/6.4 Teacher Guide.pdf"
+default_file_path = "Sample Teacher Guide.pdf"  # Path to the file in the repository
 
+# Allow the user to upload a file or use the default file
 uploaded_file = st.file_uploader(
     "Upload a document (PDF, DOCX, etc.)",
     type=["pdf", "docx", "txt", "csv", "xlsx"],
@@ -51,21 +52,32 @@ uploaded_file = st.file_uploader(
 )
 
 if not uploaded_file:
-    # Provide default file if no file is uploaded
-    st.warning("No file uploaded. Using the default file.")
-    uploaded_file = default_file_path
+    # Check if the default file exists and load it
+    if os.path.exists(default_file_path):
+        with open(default_file_path, "rb") as f:
+            uploaded_file = f
+            st.info(f"Default file loaded: {default_file_path}")
+    else:
+        st.error("No file uploaded, and default file is missing. Please upload a document.")
 
 # Validate the file
 def validate_file(file):
-    if file and isinstance(file, str) and not os.path.isfile(file):
+    """Validates the file path or uploaded file."""
+    if not file:
+        return None
+    if isinstance(file, str) and not os.path.isfile(file):
         st.error("Invalid file path or format.")
         return None
     return file
 
 file = validate_file(uploaded_file)
 
+# If a valid file is loaded, display success message
 if file:
-    st.success(f"File loaded: {os.path.basename(file)}")
+    if isinstance(file, str):  # Default file path
+        st.success(f"File loaded: {os.path.basename(file)}")
+    else:  # Uploaded file
+        st.success(f"File uploaded: {uploaded_file.name}")
 
 # Step 2: Document Category Selection
 st.header("Step 2: Select Document Category")
