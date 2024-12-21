@@ -174,13 +174,14 @@ import os
 # Step 7: Extract pages
 st.header("Step 7: Extract Pages")
 
-# Default path to the preloaded document
-default_file_path = "/Users/sayuj/Downloads/phd/PHD Resources/Course Material/Y1S2/QE AB/QE Project/US CMs/IM/6.4 Teacher Guide.pdf"
+# Default path to the preloaded document in the repository
+default_file_path = "Sample Teacher Guide.pdf"
 
-# Check if the file exists
+# Check if the file exists in the repository
 if os.path.exists(default_file_path):
     st.write(f"Default file loaded: {os.path.basename(default_file_path)}")
     default_file_loaded = True
+    uploaded_file = default_file_path  # Use default file for processing
 else:
     st.error(f"Default file not found at: {default_file_path}")
     default_file_loaded = False
